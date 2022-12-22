@@ -19,8 +19,8 @@ class LoginController extends GetxController {
     try {
       var response = await http.post(Uri.parse(url),
           headers: {
-            'Content-Type': 'application/json',
             'Accept': 'application/json',
+            'Content-Type': 'application/json',
           },
           body: json.encode({
             'phone_number': phoneNumber,

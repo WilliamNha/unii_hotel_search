@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:unii_hotel_search/src/constants/app_constants.dart';
 import 'package:unii_hotel_search/src/core/auth/signup/controller/signup_controller.dart';
+import 'package:unii_hotel_search/widgets/global/custom_appbar.dart';
 import 'package:unii_hotel_search/widgets/global/custom_button.dart';
 import 'package:unii_hotel_search/widgets/global/custom_textfield.dart';
 import 'package:unii_hotel_search/widgets/global/custom_validate_text.dart';
@@ -33,14 +34,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: AppConstant.primaryColor,
-        title: const Text("Login / Sign Up",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            )),
-      ),
+      appBar: customAppbar(title: "Login / Sign Up"),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();

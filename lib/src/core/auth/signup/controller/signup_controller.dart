@@ -28,9 +28,9 @@ class SignUpController extends GetxController {
     try {
       var response = await http.post(Uri.parse(url),
           headers: {
-            'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Cotent-Language': 'en_US'
+            'Content-Type': 'application/json',
+            'Content-Language': 'en_US'
           },
           body: json.encode({
             'phone_number': phoneNumber,

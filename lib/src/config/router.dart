@@ -6,7 +6,7 @@ import 'package:unii_hotel_search/src/core/auth/signup/screen/signup_screen.dart
 import 'package:unii_hotel_search/src/modules/home/screen/home_screen.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: "/login",
+  initialLocation: "/home",
   routes: <GoRoute>[
     GoRoute(
       path: '/home',

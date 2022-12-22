@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unii_hotel_search/src/constants/app_constants.dart';
 import 'package:http/http.dart' as http;
-import 'package:unii_hotel_search/src/core/auth/otp/controller/otp_error_model.dart';
+import 'package:unii_hotel_search/src/core/auth/otp/model/otp_error_model.dart';
 import 'package:unii_hotel_search/src/core/auth/otp/model/otp_response_model.dart';
 
 class OtpController extends GetxController {
@@ -21,8 +21,8 @@ class OtpController extends GetxController {
     try {
       var response = await http.post(Uri.parse(url),
           headers: {
-            'Content-Type': 'application/json',
             'Accept': 'application/json',
+            'Content-Type': 'application/json',
           },
           body: json.encode({
             'phone_number': phoneNumber,

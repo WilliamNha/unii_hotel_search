@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:unii_hotel_search/src/constants/app_constants.dart';
 import 'package:unii_hotel_search/src/modules/home/controller/home_controller.dart';
 import 'package:unii_hotel_search/widgets/global/custom_appbar.dart';
@@ -126,8 +127,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   buttonText: "Search",
                                   onTap: () async {
                                     await _homeController.getHotelLocation();
-                                    debugPrint(
-                                        'hotel location list: ${_homeController.hotelLocationList[0].name}');
+                                    if (_homeController
+                                        .hotelLocationList.isNotEmpty) {
+                                      if (!mounted) return;
+                                      context.push('/location_selection');
+                                    }
                                   },
                                 ),
                               )

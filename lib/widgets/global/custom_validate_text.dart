@@ -12,7 +12,9 @@ class CustomValidateText extends StatelessWidget {
     return Align(
         alignment: Alignment.centerLeft,
         child: Padding(
-          padding: const EdgeInsets.only(left: 15, bottom: 20),
+          padding: const EdgeInsets.only(
+            left: 15,
+          ),
           child: Text(
             validateText,
             style: const TextStyle(color: Colors.red),

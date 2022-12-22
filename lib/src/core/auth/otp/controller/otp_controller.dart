@@ -9,12 +9,14 @@ import 'package:unii_hotel_search/src/core/auth/otp/model/otp_response_model.dar
 
 class OtpController extends GetxController {
   final otpCode = "".obs;
-  final otpResponseModel = OtpResponseModel().obs;
-  final otpErrorModel = OtpErrorModel().obs;
+  var otpResponseModel = OtpResponseModel().obs;
+  var otpErrorModel = OtpErrorModel().obs;
   final isLoading = false.obs;
   Future verifyOtpCode(
       String phoneNumber, String countryCode, String otp) async {
     String url = "${AppConstant.baseUri}/otp/verify";
+    otpResponseModel = OtpResponseModel().obs;
+    otpErrorModel = OtpErrorModel().obs;
     isLoading(true);
     try {
       var response = await http.post(Uri.parse(url),

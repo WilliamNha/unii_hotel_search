@@ -37,7 +37,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
       padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
       child: TextFormField(
         onChanged: widget.onChanged,
-        focusNode: widget.focusNode,
+        // focusNode: widget.focusNode,
         controller: widget.controller,
         keyboardType: widget.textInputType,
         decoration: InputDecoration(

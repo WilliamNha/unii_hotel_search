@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:unii_hotel_search/src/core/auth/login/screen/login_screen.dart';
 import 'package:unii_hotel_search/src/core/auth/otp/screen/otp_screen.dart';
-import 'package:unii_hotel_search/src/core/auth/register/screen/register_screen.dart';
+import 'package:unii_hotel_search/src/core/auth/signup/screen/signup_screen.dart';
 import 'package:unii_hotel_search/src/modules/home/screen/home_screen.dart';
 
 final GoRouter router = GoRouter(
@@ -17,7 +17,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/signup',
       builder: (BuildContext context, GoRouterState state) {
-        return const RegisterScreen();
+        return const SignUpScreen();
       },
     ),
     GoRoute(

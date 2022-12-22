@@ -25,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: customAppbar(),
       body: GestureDetector(
         onTap: () {
@@ -89,11 +90,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           //show validation text
                           loginController.isInvalidatePhoneNumber.value
-                              ? const CustomValidateText(
-                                  validateText:
-                                      "Please enter validate phone number",
+                              ? const Padding(
+                                  padding: EdgeInsets.only(bottom: 20),
+                                  child: CustomValidateText(
+                                    validateText:
+                                        "Please enter validate phone number",
+                                  ),
                                 )
                               : const SizedBox(),
+
                           //next button
                           Container(
                             padding: const EdgeInsets.only(

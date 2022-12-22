@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unii_hotel_search/src/constants/app_constants.dart';
 import 'package:unii_hotel_search/src/core/auth/login/controller/login_controller.dart';
@@ -25,7 +24,7 @@ class _OtpScreenState extends State<OtpScreen> {
   final _loginController = Get.find<LoginController>();
   final _otpController = Get.put(OtpController());
   final FocusNode focusNode = FocusNode();
-  // Obtain shared preferences.
+
   final sharePreference = SharedPreferences.getInstance();
   Timer? _timer;
   int _start = 10;
@@ -104,50 +103,50 @@ class _OtpScreenState extends State<OtpScreen> {
                                     child: CustomTextfield(
                                         focusNode: focusNode,
                                         onChanged: (value) async {
-                                          if (value.length == 6) {
-                                            focusNode.unfocus();
-                                            await storeApiKeyLocal('apiKey',
-                                                '7346cc0d-1881-4513-be4f-323f296681e3');
-                                            if (!mounted) return;
-                                            context.go('/home');
-                                          }
-
                                           // if (value.length == 6) {
                                           //   focusNode.unfocus();
-                                          //   _otpController.verifyOtpCode(
-                                          //       _loginController
-                                          //           .phoneNumber.value.text,
-                                          //       _loginController
-                                          //           .countryCode.value,
-                                          //       otpTextEditingController.text);
-                                          //   //if response is error show snackbar
-                                          //   if (_otpController
-                                          //           .otpErrorModel.value.otp !=
-                                          //       null) {
-                                          //     final snackBar = SnackBar(
-                                          //       content: Text(_otpController
-                                          //           .otpErrorModel
-                                          //           .value
-                                          //           .otp![0]),
-                                          //       action: SnackBarAction(
-                                          //         label: 'OK',
-                                          //         onPressed: () {},
-                                          //       ),
-                                          //     );
-                                          //     ScaffoldMessenger.of(context)
-                                          //         .showSnackBar(snackBar);
-                                          //   } else {
-                                          //     await storeApiKeyLocal(
-                                          //         'apiKey',
-                                          //         _otpController
-                                          //             .otpResponseModel
-                                          //             .value
-                                          //             .apiKey!);
+                                          //   await storeApiKeyLocal('apiKey',
+                                          //       '7346cc0d-1881-4513-be4f-323f296681e3');
+                                          //   if (!mounted) return;
+                                          //   context.go('/home');
+                                          // }
 
-                                          //     //if response is success navigate to home screen
-                                          //     Get.offAllNamed('/home');
-                                          //   }
-                                          // } else {}
+                                          if (value.length == 6) {
+                                            focusNode.unfocus();
+                                            _otpController.verifyOtpCode(
+                                                _loginController
+                                                    .phoneNumber.value.text,
+                                                _loginController
+                                                    .countryCode.value,
+                                                otpTextEditingController.text);
+                                            //if response is error show snackbar
+                                            if (_otpController
+                                                    .otpErrorModel.value.otp !=
+                                                null) {
+                                              final snackBar = SnackBar(
+                                                content: Text(_otpController
+                                                    .otpErrorModel
+                                                    .value
+                                                    .otp![0]),
+                                                action: SnackBarAction(
+                                                  label: 'OK',
+                                                  onPressed: () {},
+                                                ),
+                                              );
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(snackBar);
+                                            } else {
+                                              await storeApiKeyLocal(
+                                                  'apiKey',
+                                                  _otpController
+                                                      .otpResponseModel
+                                                      .value
+                                                      .apiKey!);
+
+                                              //if response is success navigate to home screen
+                                              Get.offAllNamed('/home');
+                                            }
+                                          } else {}
                                         },
                                         hintText: "",
                                         labelText: "",

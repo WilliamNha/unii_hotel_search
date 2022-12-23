@@ -19,9 +19,10 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final loginController = Get.put(LoginController());
-
+  final phoneNumebrTextEditingController = TextEditingController();
+  String? _countryShortName = "TH";
   final formKey = GlobalKey<FormState>();
-  String _countryCode = "+66";
+  String _dialCode = "+66";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +66,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   alignLeft: true,
                                   onChanged: (value) {
                                     setState(() {
-                                      _countryCode = value.dialCode!;
+                                      _countryShortName = value.code;
+                                      _dialCode = value.dialCode!;
                                     });
                                   },
                                 ),
@@ -82,7 +84,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                         labelText: "Phone number",
                                         hintText: "Enter your phone number",
                                         controller:
-                                            loginController.phoneNumber.value,
+                                            phoneNumebrTextEditingController,
+                                        // loginController.phoneNumber.value,
                                       ),
                                     )),
                               )
@@ -109,22 +112,27 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: CustomButton(
                                 buttonText: "Next",
                                 onTap: () async {
+                                  loginController.countryShortName.value =
+                                      _countryShortName!;
+                                  loginController.phoneNumber.value =
+                                      phoneNumebrTextEditingController.text;
                                   if (loginController
-                                          .phoneNumber.value.text.isEmpty ||
-                                      loginController
-                                              .phoneNumber.value.text.length <
-                                          9) {
+                                          .phoneNumber.value.isEmpty ||
+                                      loginController.phoneNumber.value.length <
+                                          8) {
                                     loginController
                                         .isInvalidatePhoneNumber.value = true;
                                   } else {
                                     loginController
                                         .isInvalidatePhoneNumber.value = false;
                                     loginController.countryCode.value =
-                                        _countryCode;
+                                        _dialCode;
 
                                     await loginController.verifyPhoneNumber(
-                                        loginController.phoneNumber.value.text,
-                                        _countryCode);
+                                        loginController.phoneNumber.value,
+                                        _dialCode);
+                                    phoneNumebrTextEditingController.clear();
+
                                     if (loginController
                                             .loginResponseModel.value.route ==
                                         "/otp") {

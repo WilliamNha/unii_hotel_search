@@ -53,7 +53,7 @@ customAppbar(
                 onExitTap!();
               },
               child: const Padding(
-                padding: EdgeInsets.only(right: 10),
+                padding: EdgeInsets.only(right: 15),
                 child: Icon(
                   Icons.exit_to_app,
                   color: Colors.white,

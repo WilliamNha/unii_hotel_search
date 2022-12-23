@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:unii_hotel_search/src/constants/app_constants.dart';
+import 'package:unii_hotel_search/src/core/auth/login/controller/login_controller.dart';
 import 'package:unii_hotel_search/src/core/auth/signup/controller/signup_controller.dart';
 import 'package:unii_hotel_search/widgets/global/custom_appbar.dart';
 import 'package:unii_hotel_search/widgets/global/custom_button.dart';
@@ -21,12 +22,17 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final _singUpController = Get.put(SignUpController());
-  var phoneController = TextEditingController();
-  final fullnameController = TextEditingController();
-  final emailController = TextEditingController();
-  String countryDialCode = "+66";
+  final _loginController = Get.find<LoginController>();
+  final _phoneController = TextEditingController();
+  final _fullnameController = TextEditingController();
+  final _emailController = TextEditingController();
+  String _countryDialCode = "+66";
+  late String _countryShortName;
   @override
   void initState() {
+    _countryShortName = _loginController.countryShortName.value;
+    _phoneController.text = _loginController.phoneNumber.value;
+
     super.initState();
   }
 
@@ -73,14 +79,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               SizedBox(
                                 width: 125,
                                 child: CountryCodePicker(
-                                  initialSelection: "TH",
+                                  initialSelection: _countryShortName,
                                   showOnlyCountryWhenClosed: false,
                                   alignLeft: true,
                                   onChanged: (value) {
                                     setState(() {
-                                      countryDialCode = value.dialCode!;
+                                      _countryDialCode = value.dialCode!;
                                       debugPrint(
-                                          'country code: $countryDialCode');
+                                          'country code: $_countryDialCode');
                                     });
                                   },
                                 ),
@@ -92,7 +98,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     textInputType: TextInputType.phone,
                                     labelText: "Phone number",
                                     hintText: "Enter your phone number",
-                                    controller: phoneController,
+                                    controller: _phoneController,
                                   )),
                             ],
                           ),
@@ -117,7 +123,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   textInputType: TextInputType.phone,
                                   labelText: "Full name",
                                   hintText: "Enter your full name",
-                                  controller: fullnameController)),
+                                  controller: _fullnameController)),
                           _singUpController.isInvalidName.value
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 15),
@@ -137,7 +143,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   textInputType: TextInputType.phone,
                                   labelText: "Email",
                                   hintText: "Enter your email",
-                                  controller: emailController)),
+                                  controller: _emailController)),
                           _singUpController.isInvalidEmail.value
                               ? const Padding(
                                   padding: EdgeInsets.only(top: 15),
@@ -192,20 +198,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 onTap: () async {
                                   //assign value to controller variable
                                   _singUpController.countryCode.value =
-                                      countryDialCode;
+                                      _countryDialCode;
                                   _singUpController.phoneNumber.value =
-                                      phoneController.value.text;
+                                      _phoneController.value.text;
                                   _singUpController.fullName.value =
-                                      fullnameController.value.text;
+                                      _fullnameController.value.text;
                                   _singUpController.email.value =
-                                      emailController.value.text;
+                                      _emailController.value.text;
 
                                   //check validate
                                   if (_singUpController
                                           .phoneNumber.value.isEmpty ||
                                       _singUpController
                                               .phoneNumber.value.length <
-                                          9) {
+                                          8) {
                                     _singUpController.isInvalidPhone.value =
                                         true;
                                   } else {
@@ -230,7 +236,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         false;
                                   }
 
-                                  //call sign up
+                                  //call sign up function
                                   if (_singUpController.isInvalidPhone.value ==
                                           false &&
                                       _singUpController.isInvalidName.value ==
@@ -249,6 +255,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     if (_singUpController.signupErrorModel.value
                                             .phoneNumber ==
                                         null) {
+                                      _phoneController.clear();
+                                      _fullnameController.clear();
+                                      _emailController.clear();
                                       if (!mounted) return;
                                       context.push('/otp');
                                     } else {

@@ -11,8 +11,9 @@ class LoginController extends GetxController {
   final isInvalidatePhoneNumber = false.obs;
   final loginResponseModel = LoginResponseModel().obs;
 
-  final phoneNumber = TextEditingController().obs;
+  final phoneNumber = ''.obs;
   final isLoading = false.obs;
+  final countryShortName = "".obs;
   Future verifyPhoneNumber(String phoneNumber, String countryCode) async {
     String url = "${AppConstant.baseUri}/mobile/check";
     isLoading(true);

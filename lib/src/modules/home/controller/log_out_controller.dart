@@ -8,11 +8,11 @@ import 'package:http/http.dart' as http;
 import 'package:unii_hotel_search/src/modules/home/model/log_out_model.dart';
 import 'package:unii_hotel_search/src/utils/helper/local_storage.dart';
 
-class LoginController extends GetxController {
+class LogoutController extends GetxController {
   final isLoading = false.obs;
   var logoutModel = LogoutModel().obs;
   final localStorage = LocalStorage();
-  Future verifyPhoneNumber(String phoneNumber, String countryCode) async {
+  Future logut() async {
     isLoading(true);
     String url = "${AppConstant.baseUri}/logout";
     String apiKey = await localStorage.getApiKeyLocal("apiKey");

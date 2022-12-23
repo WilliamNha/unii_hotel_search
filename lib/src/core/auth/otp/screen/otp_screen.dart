@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unii_hotel_search/src/constants/app_constants.dart';
 import 'package:unii_hotel_search/src/core/auth/login/controller/login_controller.dart';
 import 'package:unii_hotel_search/src/core/auth/otp/controller/otp_controller.dart';
+import 'package:unii_hotel_search/src/core/auth/otp/controller/resend_otp_controller.dart';
 import 'package:unii_hotel_search/src/utils/helper/local_storage.dart';
 import 'package:unii_hotel_search/widgets/global/custom_appbar.dart';
 import 'package:unii_hotel_search/widgets/global/custom_button.dart';
@@ -21,6 +22,7 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> {
+  final _resendOtpController = Get.put(ResendOtpController());
   final otpTextEditingController = TextEditingController();
   final _loginController = Get.find<LoginController>();
   final _otpController = Get.put(OtpController());
@@ -29,7 +31,7 @@ class _OtpScreenState extends State<OtpScreen> {
 
   final sharePreference = SharedPreferences.getInstance();
   Timer? _timer;
-  int _start = 10;
+  int _start = 120;
 
   void startTimer() {
     const oneSec = Duration(seconds: 1);
@@ -57,6 +59,9 @@ class _OtpScreenState extends State<OtpScreen> {
 
   @override
   void initState() {
+    debugPrint("phone : ${_loginController.phoneNumber.value}");
+    debugPrint('country code: ${_loginController.countryCode.value}');
+
     startTimer();
     super.initState();
   }
@@ -97,7 +102,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                   Padding(
                                     padding: const EdgeInsets.only(top: 30),
                                     child: Text(
-                                        'Enter OTP password sent to ${_loginController.countryCode.value}${_loginController.phoneNumber.value.text}'),
+                                        'Enter OTP password sent to ${_loginController.countryCode.value}${_loginController.phoneNumber.value}'),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
@@ -105,26 +110,19 @@ class _OtpScreenState extends State<OtpScreen> {
                                     child: CustomTextfield(
                                         focusNode: focusNode,
                                         onChanged: (value) async {
-                                          // if (value.length == 6) {
-                                          //   focusNode.unfocus();
-                                          //   await storeApiKeyLocal('apiKey',
-                                          //       '7346cc0d-1881-4513-be4f-323f296681e3');
-                                          //   if (!mounted) return;
-                                          //   context.go('/home');
-                                          // }
-
                                           if (value.length == 6) {
-                                            focusNode.unfocus();
-                                            _otpController.verifyOtpCode(
+                                            FocusScope.of(context).unfocus();
+                                            await _otpController.verifyOtpCode(
                                                 _loginController
-                                                    .phoneNumber.value.text,
+                                                    .phoneNumber.value,
                                                 _loginController
                                                     .countryCode.value,
                                                 otpTextEditingController.text);
+                                            otpTextEditingController.clear();
                                             //if response is error show snackbar
-                                            if (_otpController
-                                                    .otpErrorModel.value.otp !=
-                                                null) {
+
+                                            if (_otpController.otpErrorModel
+                                                .value.otp!.isNotEmpty) {
                                               final snackBar = SnackBar(
                                                 content: Text(_otpController
                                                     .otpErrorModel
@@ -135,6 +133,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                                   onPressed: () {},
                                                 ),
                                               );
+                                              if (!mounted) return;
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(snackBar);
                                             } else {
@@ -175,12 +174,27 @@ class _OtpScreenState extends State<OtpScreen> {
                                             ? "Request OTP"
                                             : "Retry in ${_start.toString()} sec",
                                         onTap: () async {
-                                          await _loginController
-                                              .verifyPhoneNumber(
-                                                  _loginController
-                                                      .phoneNumber.value.text,
-                                                  _loginController
-                                                      .countryCode.value);
+                                          FocusScope.of(context).unfocus();
+                                          final snackBar = SnackBar(
+                                            content: Text(_resendOtpController
+                                                .resendOtpModel.value.message!),
+                                            action: SnackBarAction(
+                                              label: 'OK',
+                                              onPressed: () {},
+                                            ),
+                                          );
+                                          if (!mounted) return;
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                          await _resendOtpController.resendOtp(
+                                              _loginController
+                                                  .phoneNumber.value,
+                                              _loginController
+                                                  .countryCode.value);
+                                          setState(() {
+                                            _start = 120;
+                                          });
+                                          startTimer();
                                         }),
                                   ),
                                   const SizedBox(

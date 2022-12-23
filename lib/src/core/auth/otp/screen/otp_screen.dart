@@ -120,9 +120,21 @@ class _OtpScreenState extends State<OtpScreen> {
                                                 otpTextEditingController.text);
                                             otpTextEditingController.clear();
                                             //if response is error show snackbar
+                                            if (_otpController.otpResponseModel
+                                                    .value.apiKey !=
+                                                null) {
+                                              await localStorage
+                                                  .storeApiKeyLocal(
+                                                      'apiKey',
+                                                      _otpController
+                                                          .otpResponseModel
+                                                          .value
+                                                          .apiKey!);
 
-                                            if (_otpController.otpErrorModel
-                                                .value.otp!.isNotEmpty) {
+                                              //if response is success navigate to home screen
+                                              if (!mounted) return;
+                                              context.go('/home');
+                                            } else {
                                               final snackBar = SnackBar(
                                                 content: Text(_otpController
                                                     .otpErrorModel
@@ -136,18 +148,6 @@ class _OtpScreenState extends State<OtpScreen> {
                                               if (!mounted) return;
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(snackBar);
-                                            } else {
-                                              await localStorage
-                                                  .storeApiKeyLocal(
-                                                      'apiKey',
-                                                      _otpController
-                                                          .otpResponseModel
-                                                          .value
-                                                          .apiKey!);
-
-                                              //if response is success navigate to home screen
-                                              if (!mounted) return;
-                                              context.go('/home');
                                             }
                                           } else {}
                                         },

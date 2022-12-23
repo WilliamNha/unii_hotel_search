@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:unii_hotel_search/src/constants/app_constants.dart';
-import 'package:unii_hotel_search/src/modules/home/controller/home_controller.dart';
+import 'package:unii_hotel_search/src/modules/home/controller/get_hotel_location_controller.dart';
 import 'package:unii_hotel_search/widgets/global/custom_appbar.dart';
 import 'package:unii_hotel_search/widgets/global/custom_button.dart';
 import 'package:unii_hotel_search/widgets/global/instruction_text.dart';
@@ -18,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _homeController = Get.put(HomeController());
+  final _homeController = Get.put(GetHotelLocationController());
   var chipList = ["Location", "Property Name"];
   int currentIndex = 0;
   @override

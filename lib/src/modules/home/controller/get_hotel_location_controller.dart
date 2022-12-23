@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:unii_hotel_search/src/modules/home/model/hotel_location_model.dart';
 import 'package:unii_hotel_search/src/utils/helper/local_storage.dart';
 
-class HomeController extends GetxController {
+class GetHotelLocationController extends GetxController {
   final isLoading = false.obs;
   final localStorage = LocalStorage();
   var hotelLocationModel = HotelLocationModel().obs;
@@ -20,7 +20,7 @@ class HomeController extends GetxController {
     debugPrint("api key: $apiKey");
     hotelLocationModel = HotelLocationModel().obs;
     String url =
-        "${AppConstant.baseUri}/hotel/location?longtitude=$longtitude&latitude=$latitude";
+        "${AppConstant.baseUri}/hotel/location?longitude=$longtitude&latitude=$latitude";
 
     isLoading(true);
 

@@ -43,6 +43,7 @@ dependencies:
   go_router: ^4.3.0
   country_code_picker: ^2.0.1
   http: ^0.13.5
+  font_awesome_flutter: ^10.3.0
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unii_hotel_search/src/modules/home/controller/home_controller.dart';
+import 'package:go_router/go_router.dart';
+import 'package:unii_hotel_search/src/modules/home/controller/get_hotel_location_controller.dart';
+import 'package:unii_hotel_search/src/modules/home/controller/hotel_search_controller.dart';
 import 'package:unii_hotel_search/widgets/global/custom_appbar.dart';
 import 'package:unii_hotel_search/widgets/select_location/location_widget_card.dart';
 import 'package:unii_hotel_search/widgets/select_location/search_filed.dart';
@@ -15,13 +17,14 @@ class LocationSelectScreen extends StatefulWidget {
 }
 
 class _LocationSelectScreenState extends State<LocationSelectScreen> {
-  final homeController = Get.find<HomeController>();
+  final getHotelLocationController = Get.find<GetHotelLocationController>();
+  final hotelSearchController = Get.put(HotelSearchController);
   final _searchController = TextEditingController();
   var locationList = [];
   @override
   void initState() {
-    locationList = homeController.hotelLocationList;
-
+    locationList = getHotelLocationController.hotelLocationList;
+    // debugPrint("location list: ${locationList[0].longitude}");
     super.initState();
   }
 
@@ -54,6 +57,10 @@ class _LocationSelectScreenState extends State<LocationSelectScreen> {
                         itemCount: locationList.length,
                         itemBuilder: (context, index) {
                           return LocationWidgetCard(
+                            onTap: () {
+                              context.push('/search_result',
+                                  extra: locationList[index]);
+                            },
                             isNearbyLocation: index == 0,
                             isFavoriteLocation: index == 1,
                             title: locationList[index].name!,
@@ -70,7 +77,7 @@ class _LocationSelectScreenState extends State<LocationSelectScreen> {
 
   void searchLocation(String value) {
     final searchedLocationList =
-        homeController.hotelLocationList.where((locatioName) {
+        getHotelLocationController.hotelLocationList.where((locatioName) {
       final locationName = locatioName.name!.toLowerCase();
       final input = value.toLowerCase();
 

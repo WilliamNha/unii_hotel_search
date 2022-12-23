@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:unii_hotel_search/src/constants/app_constants.dart';
 
 class LocationWidgetCard extends StatelessWidget {
+  final GestureTapCallback? onTap;
   final bool isNearbyLocation;
   final bool isFavoriteLocation;
   final String title;
   final String subTitle;
   const LocationWidgetCard({
+    this.onTap,
     this.isNearbyLocation = false,
     this.isFavoriteLocation = false,
     required this.title,
@@ -17,7 +19,7 @@ class LocationWidgetCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         width: double.infinity,

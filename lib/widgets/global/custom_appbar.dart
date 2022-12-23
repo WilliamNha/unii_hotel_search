@@ -7,27 +7,35 @@ customAppbar({
 }) {
   return AppBar(
     backgroundColor: AppConstant.primaryColor,
-    title: Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.only(right: 10),
-          child: Icon(
-            Icons.location_on,
-            size: 20,
-          ),
-        ),
-        Expanded(
-          child: Text(title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: isSearchResultScreen ? 16 : 20,
-                fontWeight: FontWeight.bold,
-              )),
-        ),
-      ],
-    ),
+    title: isSearchResultScreen
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(right: 10),
+                child: Icon(
+                  Icons.location_on,
+                  size: 20,
+                ),
+              ),
+              Expanded(
+                child: Text(title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: isSearchResultScreen ? 16 : 20,
+                      fontWeight: FontWeight.bold,
+                    )),
+              ),
+            ],
+          )
+        : Text(title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: isSearchResultScreen ? 16 : 20,
+              fontWeight: FontWeight.bold,
+            )),
     actions: [
       isSearchResultScreen
           ? const Center(

@@ -5,6 +5,7 @@ import 'package:unii_hotel_search/src/core/auth/otp/screen/otp_screen.dart';
 import 'package:unii_hotel_search/src/core/auth/signup/screen/signup_screen.dart';
 import 'package:unii_hotel_search/src/modules/home/model/hotel_location_model.dart';
 import 'package:unii_hotel_search/src/modules/home/screen/home_screen.dart';
+import 'package:unii_hotel_search/src/modules/home/screen/hotel_detail_screen.dart';
 import 'package:unii_hotel_search/src/modules/home/screen/location_selection_screen.dart';
 import 'package:unii_hotel_search/src/modules/home/screen/search_result_screen.dart';
 
@@ -47,6 +48,12 @@ final GoRouter router = GoRouter(
         return SearchResultScreen(
           hotelSearchModel: state.extra as HotelLocationModel,
         );
+      },
+    ),
+    GoRoute(
+      path: '/hotel_detail',
+      builder: (BuildContext context, GoRouterState state) {
+        return HotelDetailScreen(hotelId: state.extra as int);
       },
     ),
   ],

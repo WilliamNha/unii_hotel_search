@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unii_hotel_search/widgets/search_result/favorite_button.dart';
+import 'package:unii_hotel_search/widgets/global/favorite_button.dart';
 import 'package:unii_hotel_search/widgets/search_result/price_range.dart';
 import 'package:unii_hotel_search/widgets/search_result/review_button.dart';
 

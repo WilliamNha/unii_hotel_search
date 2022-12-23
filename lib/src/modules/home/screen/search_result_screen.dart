@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:unii_hotel_search/src/constants/app_constants.dart';
 import 'package:unii_hotel_search/src/modules/home/controller/hotel_search_controller.dart';
 import 'package:unii_hotel_search/src/modules/home/model/hotel_location_model.dart';
@@ -76,7 +77,10 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                                 final hotelData = hotelSearchController
                                     .hotelSearchList[index];
                                 return HotelCardWidget(
-                                  onTap: () {},
+                                  onTap: () {
+                                    context.push('/hotel_detail',
+                                        extra: hotelData.hotelsId);
+                                  },
                                   province: hotelData.province!,
                                   review: hotelData.reviews!,
                                   hotelImage: hotelData.imageCoverUrl!,

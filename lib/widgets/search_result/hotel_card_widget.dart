@@ -26,35 +26,39 @@ class HotelCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(20)),
-        margin: const EdgeInsets.only(top: 15, left: 15, right: 15),
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-              child: SizedBox(
-                width: double.infinity,
-                height: 130,
-                child: Image.network(
-                  hotelImage,
-                  fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(20)),
+          margin: const EdgeInsets.only(top: 15, left: 15, right: 15),
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20)),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 130,
+                  child: Image.network(
+                    hotelImage,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            HotelInfoWidget(
-              provicne: province,
-              hotelName: hotelName,
-              distanceFromCity: distanceFromCity,
-              priceRange: priceRange,
-              review: 0,
-            ),
-          ],
-        ));
+              HotelInfoWidget(
+                provicne: province,
+                hotelName: hotelName,
+                distanceFromCity: distanceFromCity,
+                priceRange: priceRange,
+                review: 0,
+              ),
+            ],
+          )),
+    );
   }
 }

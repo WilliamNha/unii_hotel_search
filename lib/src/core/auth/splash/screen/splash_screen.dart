@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   final localStorage = LocalStorage();
   getUserLoggedInStatus() async {
     await localStorage.getApiKeyLocal('apiKey').then((value) {
-      debugPrint("value : $value");
+      // debugPrint("value : $value");
       if (value.isNotEmpty) {
         isSignedIn = true;
       } else {

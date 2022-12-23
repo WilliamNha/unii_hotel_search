@@ -25,7 +25,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: customAppbar(title: "Stays"),
+        appBar: customAppbar(
+            title: "Stays",
+            isHasSignOutButton: true,
+            onExitTap: () {
+              debugPrint("exit app");
+            }),
         body: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();

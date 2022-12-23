@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:unii_hotel_search/src/core/auth/login/screen/login_screen.dart';
 import 'package:unii_hotel_search/src/core/auth/otp/screen/otp_screen.dart';
 import 'package:unii_hotel_search/src/core/auth/signup/screen/signup_screen.dart';
+import 'package:unii_hotel_search/src/core/auth/splash/screen/splash_screen.dart';
 import 'package:unii_hotel_search/src/modules/home/model/hotel_location_model.dart';
 import 'package:unii_hotel_search/src/modules/home/screen/home_screen.dart';
 import 'package:unii_hotel_search/src/modules/home/screen/hotel_detail_screen.dart';
@@ -10,8 +11,13 @@ import 'package:unii_hotel_search/src/modules/home/screen/location_selection_scr
 import 'package:unii_hotel_search/src/modules/home/screen/search_result_screen.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: "/home",
   routes: <GoRoute>[
+    GoRoute(
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return const SplashScreen();
+      },
+    ),
     GoRoute(
       path: '/home',
       builder: (BuildContext context, GoRouterState state) {

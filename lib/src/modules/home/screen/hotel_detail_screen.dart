@@ -117,7 +117,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                                     Text(
                                       '21/Dec',
                                       style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 17,
                                         fontWeight: FontWeight.bold,
                                         color: AppConstant.primaryColor,
                                       ),
@@ -145,7 +145,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen> {
                                     Text(
                                       '21/Dec',
                                       style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 17,
                                         fontWeight: FontWeight.bold,
                                         color: AppConstant.primaryColor,
                                       ),

@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:unii_hotel_search/src/constants/app_constants.dart';
 import 'package:unii_hotel_search/src/core/auth/login/controller/login_controller.dart';
+import 'package:unii_hotel_search/src/core/auth/otp/controller/resend_otp_controller.dart';
 import 'package:unii_hotel_search/src/core/auth/signup/controller/signup_controller.dart';
 import 'package:unii_hotel_search/widgets/global/custom_appbar.dart';
 import 'package:unii_hotel_search/widgets/global/custom_button.dart';
@@ -23,16 +24,17 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _singUpController = Get.put(SignUpController());
   final _loginController = Get.find<LoginController>();
+  final _resendOtpController = Get.put(ResendOtpController());
   final _phoneController = TextEditingController();
   final _fullnameController = TextEditingController();
   final _emailController = TextEditingController();
-  String _countryDialCode = "+66";
+  late String _countryDialCode;
   late String _countryShortName;
   @override
   void initState() {
     _countryShortName = _loginController.countryShortName.value;
     _phoneController.text = _loginController.phoneNumber.value;
-
+    _countryDialCode = _loginController.countryCode.value;
     super.initState();
   }
 
@@ -196,39 +198,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             child: CustomButton(
                                 buttonText: "Accept and Sign Up",
                                 onTap: () async {
-                                  //assign value to controller variable
-                                  _singUpController.countryCode.value =
-                                      _countryDialCode;
-                                  _singUpController.phoneNumber.value =
-                                      _phoneController.value.text;
-                                  _singUpController.fullName.value =
-                                      _fullnameController.value.text;
-                                  _singUpController.email.value =
-                                      _emailController.value.text;
-
-                                  //check validate
-                                  if (_singUpController
-                                          .phoneNumber.value.isEmpty ||
-                                      _singUpController
-                                              .phoneNumber.value.length <
-                                          8) {
+                                  //check validation
+                                  if (_phoneController.text.isEmpty ||
+                                      _phoneController.text.length < 8) {
                                     _singUpController.isInvalidPhone.value =
                                         true;
                                   } else {
                                     _singUpController.isInvalidPhone.value =
                                         false;
                                   }
-                                  if (_singUpController
-                                          .fullName.value.isEmpty ||
-                                      _singUpController.fullName.value.length <
-                                          3) {
+                                  if (_fullnameController.text.isEmpty ||
+                                      _fullnameController.text.length < 3) {
                                     _singUpController.isInvalidName.value =
                                         true;
                                   } else {
                                     _singUpController.isInvalidName.value =
                                         false;
                                   }
-                                  if (!_singUpController.email.value.isEmail) {
+                                  if (!_emailController.text.isEmail) {
                                     _singUpController.isInvalidEmail.value =
                                         true;
                                   } else {
@@ -244,22 +231,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       _singUpController.isInvalidEmail.value ==
                                           false) {
                                     await _singUpController.signUp(
-                                        _singUpController.phoneNumber.value,
-                                        _singUpController.countryCode.value,
-                                        _singUpController.fullName.value,
-                                        _singUpController.email.value);
-
+                                        _phoneController.value.text,
+                                        _countryDialCode,
+                                        _fullnameController.value.text,
+                                        _emailController.value.text);
                                     if (!mounted) return;
                                     FocusScope.of(context).unfocus();
-
-                                    if (_singUpController.signupErrorModel.value
-                                            .phoneNumber ==
+                                    debugPrint(
+                                        "sign up message : ${_singUpController.signupResponseModel.value.message}");
+                                    if (_singUpController.signupResponseModel
+                                            .value.message !=
                                         null) {
+                                      //send otp
+                                      await _resendOtpController.resendOtp(
+                                          _phoneController.value.text,
+                                          _countryDialCode);
+                                      if (!mounted) return;
+                                      context.push('/otp');
                                       _phoneController.clear();
                                       _fullnameController.clear();
                                       _emailController.clear();
-                                      if (!mounted) return;
-                                      context.push('/otp');
                                     } else {
                                       final snackBar = SnackBar(
                                         content: Text(_singUpController
@@ -287,7 +278,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ],
                 ),
               ),
-              _singUpController.isLoading.value
+              _singUpController.isLoading.value ||
+                      _resendOtpController.isLoading.value
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )

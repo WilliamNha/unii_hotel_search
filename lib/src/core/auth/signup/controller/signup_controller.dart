@@ -10,10 +10,7 @@ import 'package:unii_hotel_search/src/core/auth/signup/model/signup_response_mod
 class SignUpController extends GetxController {
   var signupResponseModel = SignupResponseModel().obs;
   var signupErrorModel = SignupErrorModel().obs;
-  final phoneNumber = "".obs;
-  final email = "".obs;
-  final countryCode = "".obs;
-  final fullName = "".obs;
+
   final isInvalidPhone = false.obs;
   final isInvalidName = false.obs;
   final isInvalidEmail = false.obs;

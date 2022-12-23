@@ -174,6 +174,16 @@ class _OtpScreenState extends State<OtpScreen> {
                                             ? "Request OTP"
                                             : "Retry in ${_start.toString()} sec",
                                         onTap: () async {
+                                          await _resendOtpController.resendOtp(
+                                              _loginController
+                                                  .phoneNumber.value,
+                                              _loginController
+                                                  .countryCode.value);
+                                          setState(() {
+                                            _start = 120;
+                                          });
+                                          startTimer();
+                                          if (!mounted) return;
                                           FocusScope.of(context).unfocus();
                                           final snackBar = SnackBar(
                                             content: Text(_resendOtpController
@@ -186,15 +196,6 @@ class _OtpScreenState extends State<OtpScreen> {
                                           if (!mounted) return;
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(snackBar);
-                                          await _resendOtpController.resendOtp(
-                                              _loginController
-                                                  .phoneNumber.value,
-                                              _loginController
-                                                  .countryCode.value);
-                                          setState(() {
-                                            _start = 120;
-                                          });
-                                          startTimer();
                                         }),
                                   ),
                                   const SizedBox(

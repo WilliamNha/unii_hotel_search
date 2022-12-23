@@ -16,14 +16,13 @@ class ResendOtpController extends GetxController {
     String countryCode,
   ) async {
     String url = "${AppConstant.baseUri}/otp/resend?time=12312";
-    resendOtpModel = ResendOtpModel().obs;
-
     isLoading(true);
     try {
       var response = await http.post(Uri.parse(url),
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'Content-Language': 'en_US'
           },
           body: json.encode({
             'phone_number': phoneNumber,

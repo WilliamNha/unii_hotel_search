@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:unii_hotel_search/src/constants/app_constants.dart';
 import 'package:unii_hotel_search/src/core/auth/login/controller/login_controller.dart';
+import 'package:unii_hotel_search/src/core/auth/otp/controller/resend_otp_controller.dart';
 import 'package:unii_hotel_search/widgets/global/custom_appbar.dart';
 import 'package:unii_hotel_search/widgets/global/custom_button.dart';
 import 'package:unii_hotel_search/widgets/global/custom_textfield.dart';
@@ -19,6 +20,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final loginController = Get.put(LoginController());
+  final _resendOtpController = Get.put(ResendOtpController());
   final phoneNumebrTextEditingController = TextEditingController();
   String? _countryShortName = "TH";
   final formKey = GlobalKey<FormState>();
@@ -136,6 +138,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     if (loginController
                                             .loginResponseModel.value.route ==
                                         "/otp") {
+                                      await _resendOtpController.resendOtp(
+                                          loginController.phoneNumber.value,
+                                          loginController.countryCode.value);
                                       if (!mounted) return;
                                       context.push('/otp');
                                     } else if (loginController
@@ -156,7 +161,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
-              if (loginController.isLoading.value)
+              if (loginController.isLoading.value ||
+                  _resendOtpController.isLoading.value)
                 const Center(
                   child: CircularProgressIndicator(),
                 )

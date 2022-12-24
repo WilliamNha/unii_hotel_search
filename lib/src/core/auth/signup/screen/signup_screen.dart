@@ -242,10 +242,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     if (_singUpController.signupResponseModel
                                             .value.message !=
                                         null) {
-                                      //send otp
-                                      await _resendOtpController.resendOtp(
-                                          _phoneController.value.text,
-                                          _countryDialCode);
                                       if (!mounted) return;
                                       context.push('/otp');
                                       _phoneController.clear();
